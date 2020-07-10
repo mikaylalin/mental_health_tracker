@@ -1,4 +1,11 @@
+library myLibrary;
+
 import 'package:flutter/material.dart';
+
+part 'graphs.dart';
+part 'resources.dart';
+part 'discover.dart';
+part 'home.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +24,8 @@ class MyApp extends StatelessWidget {
         // the app on
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Home'),
+      home: MyHomePage(title: 'Mental Health Tracker'),
+      //graphs: Graphs(title: 'Graphs'),
     );
   }
 }
@@ -41,7 +49,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   int _selectedIndex = 0;
   //sets the style of the text
   static const TextStyle optionStyle =
@@ -73,11 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called
-    
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -87,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent. (positions the text)
-         child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
       //create the navigation bar and its parts
       bottomNavigationBar: BottomNavigationBar(
@@ -97,14 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.wb_sunny),
+            icon: Icon(Icons.show_chart),
+            title: Text('Graphs'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mood),
             title: Text('Discover'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assessment),
-            title: Text('Graphs'),
-          ),
-           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             title: Text('Resources'),
           ),
@@ -115,9 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onItemTapped,
         //makes it so the tabs don't turn white when not selected
         type: BottomNavigationBarType.fixed,
+        //change
       ),
     );
   }
 }
-
-
