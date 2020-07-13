@@ -3,6 +3,10 @@ library my_library;
 
 import 'package:flutter/material.dart';
 
+//imported calendar from https://pub.dev/packages/table_calendar#-readme-tab-
+//thanks to aleksanderwozniak96@gmail.com
+import 'package:table_calendar/table_calendar.dart';
+
 //add in files to the library
 part 'graphs.dart';
 part 'resources.dart';
