@@ -2,12 +2,14 @@
 library my_library;
 
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 //add in files to the library
 part 'graphs.dart';
 part 'resources.dart';
 part 'discover.dart';
 part 'home.dart';
+part 'quote.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,11 +19,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Mental Health Tracker',
       theme: ThemeData(
         //application them
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
         //makes the visual density adapt to the platform the app runs on
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -50,6 +53,7 @@ class _MyBottomNavigationBar extends State<MyBottomNavigationBar> {
   int _selectedIndex = 0;
   //list of files, in the same order as the tabs
   final List<Widget> _children = [
+    Quote(),
     Home(),
     Graphs(),
     Discover(),
@@ -74,6 +78,10 @@ class _MyBottomNavigationBar extends State<MyBottomNavigationBar> {
       //create the navigation bar and its parts
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
