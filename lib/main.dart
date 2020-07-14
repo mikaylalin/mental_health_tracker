@@ -2,12 +2,15 @@
 library my_library;
 
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 //add in files to the library
 part 'graphs.dart';
 part 'resources.dart';
 part 'discover.dart';
 part 'home.dart';
+part "hometest.dart";
+part "quote.dart";
 
 void main() {
   runApp(MyApp());
@@ -24,6 +27,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         //makes the visual density adapt to the platform the app runs on
         visualDensity: VisualDensity.adaptivePlatformDensity,
+
+        fontFamily: 'Roboto',
       ),
       home: MyBottomNavigationBar(),
       //makes sure we call what's in MyBottomNavigationBar
