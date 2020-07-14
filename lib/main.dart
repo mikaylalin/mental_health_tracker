@@ -1,11 +1,16 @@
 //create library to house files in
 library my_library;
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 //imported calendar from https://pub.dev/packages/table_calendar#-readme-tab-
 //thanks to aleksanderwozniak96@gmail.com
 import 'package:table_calendar/table_calendar.dart';
+//package for persisting data, made by flutter.dev itself, but could
+//use something different like Firebase
+import 'package:shared_preferences/shared_preferences.dart';
 
 //add in files to the library
 part 'graphs.dart';
