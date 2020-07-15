@@ -17,6 +17,7 @@ part 'graphs.dart';
 part 'resources.dart';
 part 'discover.dart';
 part 'home.dart';
+part 'quiz.dart';
 
 void main() {
   runApp(MyApp());

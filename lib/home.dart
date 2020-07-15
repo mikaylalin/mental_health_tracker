@@ -7,7 +7,6 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
   //create calendar object
   CalendarController _controller;
   //create list of events (map type)
@@ -91,13 +90,20 @@ class _HomeState extends State<Home> {
       ),
       //+ button
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: _showAddDialog,
-      ),
+          child: Icon(Icons.add),
+          backgroundColor: Colors.green,
+          hoverColor: Colors.blue,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Test()),
+            );
+          }),
     );
   }
 
   //what happens when the button is pressed
+  //how you add events to the screen, edit later
   _showAddDialog() {
     showDialog(
         context: context,
