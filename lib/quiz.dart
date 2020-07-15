@@ -25,9 +25,11 @@ class _TestState extends State<Test> {
               Container(
                 color: Colors.orange,
                 margin: EdgeInsets.all(15.0),
-                child: FlutterLogo(
-                  size: 50.0,
-                ),
+                child: Text("Question 1:."),
+                // child: FlutterLogo(
+                //   size: 50.0,
+
+                // ),
               ),
               Container(
                 color: Colors.blue,

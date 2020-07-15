@@ -7,6 +7,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+class _HomeState extends State<Home> {
   //create calendar object
   CalendarController _controller;
   //create list of events (map type)
