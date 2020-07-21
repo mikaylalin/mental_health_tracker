@@ -1,6 +1,8 @@
 //create library to house files in
 library my_library;
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -9,11 +11,19 @@ import 'dart:math';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
+//imported calendar from https://pub.dev/packages/table_calendar#-readme-tab-
+//thanks to aleksanderwozniak96@gmail.com
+import 'package:table_calendar/table_calendar.dart';
+//package for persisting data, made by flutter.dev itself, but could
+//use something different like Firebase
+import 'package:shared_preferences/shared_preferences.dart';
+
 //add in files to the library
 part 'graphs.dart';
 part 'resources.dart';
 part 'discover.dart';
 part 'home.dart';
+part 'quiz.dart';
 
 void main() {
   runApp(MyApp());
