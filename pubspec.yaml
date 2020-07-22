@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   table_calendar: ^2.2.3
+  introduction_screen: ^1.0.9
+  url_launcher: ^5.5.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -75,3 +77,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
