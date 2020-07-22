@@ -4,6 +4,8 @@
 A mobile app that tracks a person's mental health over a period of time. The user will take a "Check-In" survey every day and the data from this survey will be saved locally. The user will have access to graphs that show trends in their mental health. This app is not meant to diagnose someone's mental health, rather, it is meant to showcase patterns so that person may seek the appropriate help. The app also provides helpful resources and activites in regards to mental health. 
 
 This app uses Flutter.
+Created by Mikayla Lin, Akshati Vaishnav, Julietta Rozin, and Taryn McGraw  
+Credits to Changyuan Lin and Sanya Bhartiya for additional help
 
 ![Screenshot_1595454788](https://user-images.githubusercontent.com/31674737/88233162-68fd0700-cc34-11ea-86aa-178256188924.png)
 ![Screenshot_1595454807](https://user-images.githubusercontent.com/31674737/88233168-6a2e3400-cc34-11ea-889e-419d9ea9e621.png)
@@ -13,6 +15,3 @@ This app uses Flutter.
 ![Screenshot_1595454921](https://user-images.githubusercontent.com/31674737/88233165-69959d80-cc34-11ea-84d8-2904ea744263.png)
 ![Screenshot_1595454926](https://user-images.githubusercontent.com/31674737/88233167-6a2e3400-cc34-11ea-92c3-cc20ef705730.png)
 
-
-Created by Mikayla Lin, Julietta Rozin, Akshati Vaishnav, and Taryn McGraw  
-Credits to Changyuan Lin and Sanya Bhartiya for additional help
