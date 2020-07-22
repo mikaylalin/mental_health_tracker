@@ -25,28 +25,43 @@ dependencies:
     sdk: flutter
   table_calendar: ^2.2.3
   shared_preferences: ^0.5.8
-  introduction_screen: ^1.0.9
-  url_launcher: ^5.5.0
+  charts_flutter: ^0.9.0
+  carousel_slider: ^2.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/img1.jpeg
+    - images/img2.jpeg
+    - images/img3.jpeg
+    - images/the_pomodoro_method-1.png
+  fonts:
+    - family: Gothic
+      fonts:
+        - asset: fonts/GOTHIC.TTF
+        - asset: fonts/GOTHICB.TTF
+    - family: autumn_in_november
+      fonts:
+        - asset: fonts/autumn_in_november.ttf
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
-flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+  #uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -78,4 +93,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
