@@ -41,10 +41,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/img1.jpeg
-    - images/img2.jpeg
-    - images/img3.jpeg
-    - images/the_pomodoro_method-1.png
+    - images/benefits_of_journaling.jpg
+    - images/guide_to_productivity.jpg
+    - images/release_your_stress.jpg
+    - images/the_pomodoro_method.jpg
+    - images/drink_water.jpg
   fonts:
     - family: Gothic
       fonts:
