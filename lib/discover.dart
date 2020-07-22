@@ -23,11 +23,11 @@ class CarouselDemo extends StatelessWidget {
  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      //height: MediaQuery.of(context).size.height - 136,
-      //width: MediaQuery.of(context).size.width,
       
       child: Carousel(
+        //fit images according the width
         boxFit: BoxFit.fitWidth,
+        //adding images
         images: [
           ExactAssetImage('images/release_your_stress.jpg'),
           ExactAssetImage('images/guide_to_productivity.jpg'),
@@ -35,6 +35,7 @@ class CarouselDemo extends StatelessWidget {
           ExactAssetImage('images/benefits_of_journaling.jpg'),
           ExactAssetImage('images/drink_water.jpg'),
         ],
+      //other specs
       autoplay: false,
       autoplayDuration: Duration(seconds: 5),
       dotSize: 4.0,
