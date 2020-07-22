@@ -12,6 +12,7 @@ import 'package:table_calendar/table_calendar.dart';
 //package for persisting data, made by flutter.dev itself, but could
 //use something different like Firebase
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //add in files to the library
 part 'graphs.dart';
