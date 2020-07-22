@@ -4,6 +4,6 @@ A mobile app that tracks a person's mental health over a period of time. The use
 
 This app uses Flutter.
 
-Created by Mikayla Lin, Julietta Rozin, Akshati Vaishnav, and Taryn McGraw
+Created by Mikayla Lin, Julietta Rozin, Akshati Vaishnav, and Taryn McGraw  
 Credits to Changyuan Lin and Sanya Bhartiya for additional help
 
