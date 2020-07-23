@@ -10,12 +10,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //create calendar object
   CalendarController _controller;
-  //create list of events (map type)
+  // Map of date to emotion data map
   Map<DateTime, Map<String, int>> _events;
   //creates controller for add button
   TextEditingController _eventController;
-  //creates list for the events of a specific day
-  List<dynamic> _selectedEvents;
+  // Selected emotion data for the current day
+  Map<String, int> _selectedEvents;
   //creates storage for events (data persistence)
   SharedPreferences prefs;
 
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
     _controller = CalendarController();
     _eventController = TextEditingController();
     _events = {};
-    _selectedEvents = [];
+    _selectedEvents = {};
     initPrefs();
   }
 
@@ -53,8 +53,7 @@ class _HomeState extends State<Home> {
             //put the calendar on the screen
             TableCalendar(
               // Currently very ugly
-              events: _events
-                  .map((key, value) => MapEntry(key, [value.toString()])),
+              events: _events.map((key, value) => MapEntry(key, [value])),
               //sets calendar style
               calendarStyle:
                   CalendarStyle(selectedColor: Theme.of(context).primaryColor),
@@ -63,13 +62,17 @@ class _HomeState extends State<Home> {
               //use outside of this function
               onDaySelected: (date, events) {
                 setState(() {
-                  _selectedEvents = events;
+                  // Our map wrapped in a list of length 1 to work with calendar
+                  _selectedEvents = events.isEmpty ? {} : events[0];
                 });
               },
             ),
             //lists out the _selectedEvents (events of the day) on the screen
             //below the calendar
-            ..._selectedEvents.map((event) => ListTile(title: Text(event)))
+            ListTile(
+                title: Text(_selectedEvents.isEmpty
+                    ? "No data"
+                    : _selectedEvents.toString())),
           ],
         ),
       ),
@@ -80,14 +83,14 @@ class _HomeState extends State<Home> {
           hoverColor: Colors.blue,
           onPressed: () {
             print(_controller.selectedDay);
-            setState(() {
-              _events[_controller.selectedDay] = {"anxiety": 5, "sadness": 3};
-              prefs.setString("events", json.encode(encodeMap(_events)));
-            });
-            // Navigator.push(
-            // context,
-            // MaterialPageRoute(builder: (context) => Test()),
-            // );
+            // setState(() {
+            //   _events[_controller.selectedDay] = {"anxiety": 5, "sadness": 3};
+            //   prefs.setString("events", json.encode(encodeMap(_events)));
+            // });
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Test(_selectedEvents)),
+            );
           }),
     );
   }
