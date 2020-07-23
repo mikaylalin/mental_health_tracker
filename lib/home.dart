@@ -3,6 +3,11 @@ part of my_library;
 //NOTE: events = each day's informatiom
 
 class Home extends StatefulWidget {
+  final Map<DateTime, Map<String, int>> data;
+  final Function(DateTime, Map<String, int>) updateDataCallback;
+
+  Home({this.data, this.updateDataCallback});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -10,32 +15,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //create calendar object
   CalendarController _controller;
-  // Map of date to emotion data map
-  Map<DateTime, Map<String, int>> _events;
   // Selected emotion data for the current day
-  Map<String, int> _selectedEvents;
-  //creates storage for events (data persistence)
-  SharedPreferences prefs;
+  Map<String, int> _selectedData;
 
   @override
   void initState() {
     super.initState();
     //initialize calendar
     _controller = CalendarController();
-    _events = {};
-    _selectedEvents = {};
-    initPrefs();
-  }
-
-  //method to retrieve events data (data persistence)
-  void initPrefs() async {
-    prefs = await SharedPreferences.getInstance();
-    setState(() {
-      //decodeMap to get events as a String or an empty Map back
-      //set this to the _events in use
-      _events = Map<DateTime, Map<String, int>>.from(
-          decodeMap(json.decode(prefs.getString("events") ?? "{}")));
-    });
   }
 
   /// Save [emotions] for the current selected day
@@ -43,14 +30,14 @@ class _HomeState extends State<Home> {
     setState(() {
       var date = _controller.selectedDay;
       print("Saving emotions for $date");
-      _events[date] = emotions;
-      _selectedEvents = _events[date];
-      prefs.setString("events", json.encode(encodeMap(_events)));
+      widget.updateDataCallback(date, emotions);
+      _selectedData = emotions;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _selectedData = widget.data[_controller.selectedDay] ?? {};
     return new Scaffold(
       appBar: new AppBar(title: new Text('Home')),
       //scrollable
@@ -61,7 +48,7 @@ class _HomeState extends State<Home> {
             //put the calendar on the screen
             TableCalendar(
               // Currently very ugly
-              events: _events.map((key, value) => MapEntry(key, [value])),
+              events: widget.data.map((key, value) => MapEntry(key, [value])),
               //sets calendar style
               calendarStyle:
                   CalendarStyle(selectedColor: Theme.of(context).primaryColor),
@@ -71,15 +58,15 @@ class _HomeState extends State<Home> {
               onDaySelected: (date, events) {
                 setState(() {
                   // Our map wrapped in a list of length 1 to work with calendar
-                  _selectedEvents = events.isEmpty ? {} : events[0];
+                  _selectedData = events.isEmpty ? {} : events[0];
                 });
               },
             ),
             // Edit the below to change how the current day data is display
             ListTile(
-                title: Text(_selectedEvents.isEmpty
+                title: Text(_selectedData.isEmpty
                     ? "No data"
-                    : _selectedEvents.toString())),
+                    : _selectedData.toString())),
           ],
         ),
       ),
@@ -93,28 +80,11 @@ class _HomeState extends State<Home> {
               context,
               MaterialPageRoute(
                   builder: (context) => Test(
-                        existingData: _selectedEvents,
+                        existingData: _selectedData,
                         saveEmotionsCallback: saveEmotions,
                       )),
             );
           }),
     );
-  }
-
-  //turn events map into string we can use
-  Map<String, dynamic> encodeMap(Map<DateTime, Map<String, int>> map) {
-    Map<String, dynamic> newMap = {};
-    map.forEach((key, value) {
-      newMap[key.toString()] = map[key];
-    });
-    return newMap;
-  }
-
-  Map<DateTime, Map<String, int>> decodeMap(Map<String, dynamic> map) {
-    Map<DateTime, Map<String, int>> newMap = {};
-    map.forEach((key, value) {
-      newMap[DateTime.parse(key)] = Map<String, int>.from(map[key]);
-    });
-    return newMap;
   }
 }
