@@ -162,19 +162,34 @@ class MyBottomNavigationBar extends StatefulWidget {
   // always marked "final".
 
   @override
-  _MyBottomNavigationBar createState() => _MyBottomNavigationBar();
+  _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
 }
 
-class _MyBottomNavigationBar extends State<MyBottomNavigationBar> {
+class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
+  // Map of date to emotion data map
+  Map<DateTime, Map<String, int>> data;
+  // SharePreferences to store data...
+  SharedPreferences prefs;
   //_selectedIndex is the variable for the index of the navigation bar tabs
   int _selectedIndex = 0;
-  //list of files, in the same order as the tabs
-  final List<Widget> _children = [
-    Home(),
-    Graphs(),
-    Discover(),
-    Resources(),
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+    data = {};
+    initPrefs();
+  }
+
+  //method to retrieve events data (data persistence)
+  void initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      //decodeMap to get events as a String or an empty Map back
+      //set this to the _events in use
+      data = Map<DateTime, Map<String, int>>.from(
+          decodeMap(json.decode(prefs.getString("events") ?? "{}")));
+    });
+  }
 
   //when item tapped move to the _selectedIndex, which changes which file
   //is selected
@@ -184,13 +199,26 @@ class _MyBottomNavigationBar extends State<MyBottomNavigationBar> {
     });
   }
 
+  /// The main body corresponding to selected [index], make new with updated data every time refresh
+  Widget _bodyFor(int index) {
+    switch (index) {
+      case 0:
+        return Home(data: data, updateDataCallback: updateData);
+      case 1:
+        return Graphs();
+      case 2:
+        return Discover();
+      case 3:
+        return Resources();
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
-
     return new Scaffold(
-      //body will go to the file and _selectedIndex match in children
-      body: _children[_selectedIndex],
+      body: _bodyFor(_selectedIndex),
       //create the navigation bar and its parts
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -221,5 +249,29 @@ class _MyBottomNavigationBar extends State<MyBottomNavigationBar> {
         type: BottomNavigationBarType.fixed,
       ),
     );
+  }
+
+  /// Update and save [newData] for [date]
+  void updateData(DateTime date, Map<String, int> newData) {
+    data[date] = newData;
+    prefs.setString("events", json.encode(encodeMap(data)));
+  }
+
+  /// Encode map for saving
+  Map<String, dynamic> encodeMap(Map<DateTime, Map<String, int>> map) {
+    Map<String, dynamic> newMap = {};
+    map.forEach((key, value) {
+      newMap[key.toString()] = map[key];
+    });
+    return newMap;
+  }
+
+  /// Decode map to Map<DateTime, Map<String, int> for use w/ calendar
+  Map<DateTime, Map<String, int>> decodeMap(Map<String, dynamic> map) {
+    Map<DateTime, Map<String, int>> newMap = {};
+    map.forEach((key, value) {
+      newMap[DateTime.parse(key)] = Map<String, int>.from(map[key]);
+    });
+    return newMap;
   }
 }

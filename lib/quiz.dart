@@ -1,69 +1,73 @@
 part of my_library;
 
 class Test extends StatefulWidget {
+  final Map<String, int> existingData;
+  final void Function(Map<String, int>) saveEmotionsCallback;
+
+  Test({@required this.existingData, this.saveEmotionsCallback}) {
+    print("Received existing quiz data:");
+    print(existingData);
+  }
+
   @override
   _TestState createState() => _TestState();
 }
 
 class _TestState extends State<Test> {
-  int numButtons = 5;
-  var emotionData;
-  var keyList;
+  static const int numButtons = 5;
+  // keyList dictates questions available and what order
+  static const List<String> keyList = [
+    'anxiety',
+    'sadness',
+    'numbness',
+    'anger',
+    'stress',
+    'happiness',
+    'tiredness',
+    'hopelessness'
+  ];
 
+  // Holds this quiz data (save on exit)
+  Map<String, int> emotionData;
+
+  @override
   void initState() {
-    //map that stores data about each emotion's intensity
-    emotionData = {
-      'anxiety': 0,
-      'sadness': 0,
-      'numbness': 0,
-      'anger': 0,
-      'stress': 0,
-      'happiness': 0,
-      'tiredness': 0,
-      'hopelessness': 0,
-    };
-    //list that stores the keys (the emotions the quiz asks about)
-    keyList = emotionData.entries.toList();
+    super.initState();
+    emotionData = {...widget.existingData}; // Could use other defaults as well
   }
 
-  //builds the quiz interface
+  /// Builds the quiz interface
   Widget _buildQuiz() {
     return ListView.builder(
         padding: EdgeInsets.all(16.0),
-        //create enough sections for the questions and buttons
-        itemCount: emotionData.length * 2,
+        itemCount: keyList.length,
         itemBuilder: (context, i) {
-          //alternate sections between questions and buttons
-          if (i.isEven) {
-            //question sections, i ~/ 2 since itemCount is passed into i
-            return ListTile(
-                title: Text(
-                    'How intense are your feelings of ${keyList[i ~/ 2].key} today?'));
-          } else {
-            //button sections
-            return Row(
+          var emotion = keyList[i];
+          return Column(children: <Widget>[
+            ListTile(
+                title:
+                    Text('How intense are your feelings of $emotion today?')),
+            Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: _buildButtons(i ~/ 2));
-          }
+                children: _buildButtons(emotion)),
+          ]);
         });
   }
 
-  //builds the buttons
-  List<Widget> _buildButtons(index) {
+  /// Builds buttons for [emotion] scale
+  List<Widget> _buildButtons(emotion) {
     //list to keep track of the buttons
     List<Widget> buttons = new List(numButtons);
     for (var i = 0; i < numButtons; i++) {
       buttons[i] = (new IconButton(
           icon: new Icon(Icons.brightness_1),
           onPressed: () => setState(() {
-                //if the button is pressed, change emotionData to the
-                //right intensity
-                emotionData[keyList[index].key] = i + 1;
+                emotionData[emotion] = i + 1;
               }),
           //change the color of the buttons to fit the information in emotionData
-          color: (i < emotionData[keyList[index].key])
-              ? Colors.orange
-              : Colors.grey));
+          // ?? 0 for data that isn't set yet
+          color:
+              (i < (emotionData[emotion] ?? 0)) ? Colors.orange : Colors.grey));
     }
     return buttons;
   }
@@ -73,6 +77,14 @@ class _TestState extends State<Test> {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Daily Check-In'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.check),
+                onPressed: () {
+                  widget.saveEmotionsCallback(emotionData);
+                  Navigator.pop(context);
+                }),
+          ],
         ),
         body: _buildQuiz());
   }
