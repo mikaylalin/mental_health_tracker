@@ -12,8 +12,6 @@ class _HomeState extends State<Home> {
   CalendarController _controller;
   // Map of date to emotion data map
   Map<DateTime, Map<String, int>> _events;
-  //creates controller for add button
-  TextEditingController _eventController;
   // Selected emotion data for the current day
   Map<String, int> _selectedEvents;
   //creates storage for events (data persistence)
@@ -24,20 +22,30 @@ class _HomeState extends State<Home> {
     super.initState();
     //initialize calendar
     _controller = CalendarController();
-    _eventController = TextEditingController();
     _events = {};
     _selectedEvents = {};
     initPrefs();
   }
 
   //method to retrieve events data (data persistence)
-  initPrefs() async {
+  void initPrefs() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       //decodeMap to get events as a String or an empty Map back
       //set this to the _events in use
       _events = Map<DateTime, Map<String, int>>.from(
           decodeMap(json.decode(prefs.getString("events") ?? "{}")));
+    });
+  }
+
+  /// Save [emotions] for the current selected day
+  void saveEmotions(Map<String, int> emotions) {
+    setState(() {
+      var date = _controller.selectedDay;
+      print("Saving emotions for $date");
+      _events[date] = emotions;
+      _selectedEvents = _events[date];
+      prefs.setString("events", json.encode(encodeMap(_events)));
     });
   }
 
@@ -67,8 +75,7 @@ class _HomeState extends State<Home> {
                 });
               },
             ),
-            //lists out the _selectedEvents (events of the day) on the screen
-            //below the calendar
+            // Edit the below to change how the current day data is display
             ListTile(
                 title: Text(_selectedEvents.isEmpty
                     ? "No data"
@@ -82,14 +89,13 @@ class _HomeState extends State<Home> {
           backgroundColor: Colors.green,
           hoverColor: Colors.blue,
           onPressed: () {
-            print(_controller.selectedDay);
-            // setState(() {
-            //   _events[_controller.selectedDay] = {"anxiety": 5, "sadness": 3};
-            //   prefs.setString("events", json.encode(encodeMap(_events)));
-            // });
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Test(_selectedEvents)),
+              MaterialPageRoute(
+                  builder: (context) => Test(
+                        existingData: _selectedEvents,
+                        saveEmotionsCallback: saveEmotions,
+                      )),
             );
           }),
     );
@@ -98,10 +104,7 @@ class _HomeState extends State<Home> {
   //turn events map into string we can use
   Map<String, dynamic> encodeMap(Map<DateTime, Map<String, int>> map) {
     Map<String, dynamic> newMap = {};
-    print("Encode Map");
     map.forEach((key, value) {
-      print("Key $key");
-      print("Value $value");
       newMap[key.toString()] = map[key];
     });
     return newMap;
@@ -109,10 +112,7 @@ class _HomeState extends State<Home> {
 
   Map<DateTime, Map<String, int>> decodeMap(Map<String, dynamic> map) {
     Map<DateTime, Map<String, int>> newMap = {};
-    print("Decode Map");
     map.forEach((key, value) {
-      print("Key $key");
-      print("Value $value");
       newMap[DateTime.parse(key)] = Map<String, int>.from(map[key]);
     });
     return newMap;

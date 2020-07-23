@@ -1,11 +1,12 @@
 part of my_library;
 
 class Test extends StatefulWidget {
-  final Map<String, int> emotionData;
+  final Map<String, int> existingData;
+  final void Function(Map<String, int>) saveEmotionsCallback;
 
-  Test(this.emotionData) {
+  Test({@required this.existingData, this.saveEmotionsCallback}) {
     print("Received existing quiz data:");
-    print(emotionData);
+    print(existingData);
   }
 
   @override
@@ -25,6 +26,15 @@ class _TestState extends State<Test> {
     'tiredness',
     'hopelessness'
   ];
+
+  // Holds this quiz data (save on exit)
+  Map<String, int> emotionData;
+
+  @override
+  void initState() {
+    super.initState();
+    emotionData = {...widget.existingData}; // Could use other defaults as well
+  }
 
   /// Builds the quiz interface
   Widget _buildQuiz() {
@@ -52,16 +62,12 @@ class _TestState extends State<Test> {
       buttons[i] = (new IconButton(
           icon: new Icon(Icons.brightness_1),
           onPressed: () => setState(() {
-                //if the button is pressed, change emotionData to the
-                //right intensity
-                // widget.emotionData[keyList[index].key] = i + 1;
-                print("Want to set $emotion to ${i + 1}");
+                emotionData[emotion] = i + 1;
               }),
           //change the color of the buttons to fit the information in emotionData
           // ?? 0 for data that isn't set yet
-          color: (i < (widget.emotionData[emotion] ?? 0))
-              ? Colors.orange
-              : Colors.grey));
+          color:
+              (i < (emotionData[emotion] ?? 0)) ? Colors.orange : Colors.grey));
     }
     return buttons;
   }
@@ -71,6 +77,14 @@ class _TestState extends State<Test> {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Daily Check-In'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.check),
+                onPressed: () {
+                  widget.saveEmotionsCallback(emotionData);
+                  Navigator.pop(context);
+                }),
+          ],
         ),
         body: _buildQuiz());
   }
