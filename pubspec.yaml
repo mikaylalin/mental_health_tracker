@@ -47,14 +47,6 @@ flutter:
     - images/release_your_stress.jpg
     - images/the_pomodoro_method.jpg
     - images/drink_water.jpg
-  fonts:
-    - family: Gothic
-      fonts:
-        - asset: fonts/GOTHIC.TTF
-        - asset: fonts/GOTHICB.TTF
-    - family: autumn_in_november
-      fonts:
-        - asset: fonts/autumn_in_november.ttf
 
 
 # For information on the generic Dart part of this file, see the
@@ -82,17 +74,17 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Poppins
+      fonts:
+        #- asset: fonts/Poppins-SemiBold.ttf
+        - asset: fonts/Poppins-Regular.ttf
+        #   style: italic
+    # - family: Trajan Pro
+    #   fonts:
+    #     - asset: fonts/TrajanPro.ttf
+    #     - asset: fonts/TrajanPro_Bold.ttf
+    #       weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

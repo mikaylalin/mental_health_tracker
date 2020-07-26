@@ -5,7 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-//update pubspec.yaml for this to work!
+//imported calendar from https://pub.dev/packages/table_calendar#-readme-tab-
+//thanks to aleksanderwozniak96@gmail.com
 import 'package:table_calendar/table_calendar.dart';
 //import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carousel_pro/carousel_pro.dart';
@@ -13,8 +14,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:carousl/carousel.dart';
 
-//imported calendar from https://pub.dev/packages/table_calendar#-readme-tab-
-//thanks to aleksanderwozniak96@gmail.com
 //package for persisting data, made by flutter.dev itself, but could
 //use something different like Firebase
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,7 +41,7 @@ class _QuoteState extends State<Quote> {
   Random rnd = new Random();
   var lst = [
     "Act as if what you do makes a difference. It does.\n\n- William James",
-    "Success is not final, failure is not fatal: it is the courage to continue that counts./n/n- Winston Churchill",
+    "Success is not final, failure is not fatal: it is the courage to continue that counts.\n\n- Winston Churchill",
     "Never bend your head. Always hold it high. Look the world straight in the eye.\n\n- Helen Keller",
     "What you get by achieving your goals is not as important as what you become by achieving your goals.\n\n- Zig Ziglar",
     "Believe you can and you're halfway there.\n\n- Teddy Roosevelt",
@@ -90,45 +89,47 @@ class _QuoteState extends State<Quote> {
     //selects an element from the list of quotes
     var element = lst[rnd.nextInt(lst.length)];
     return MaterialApp(
+        theme: ThemeData(fontFamily: 'Poppins'),
         home: Scaffold(
-      body: Center(
-          child: Column(
-              //aligns button to center
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            Container(
-                //do we want a margin around the button??
-                //margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: ButtonTheme(
-              //button color
-              buttonColor: Colors.deepPurple,
-              //size of button
-              height: 759.0, minWidth: 700,
-              child: RaisedButton(
-                //when button is pressed, it calls on the MyBottomNavigatorBar() method
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              MyBottomNavigationBar()));
-                },
-                //text inside the method
-                child: new Text(
-                  element + "\n\n\n\n\n\n Tap to Continue >>>",
+          body: Center(
+              child: Column(
+                  //aligns button to center
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                Container(
+                    //do we want a margin around the button??
+                    //margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: ButtonTheme(
+                  //button color
+                  buttonColor: Colors.deepPurple,
+                  //size of button
+                  height: MediaQuery.of(context).size.height,
+                  minWidth: MediaQuery.of(context).size.width,
+                  child: RaisedButton(
+                    //when button is pressed, it calls on the MyBottomNavigatorBar() method
+                    //and gets rid of the button
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  MyBottomNavigationBar()));
+                    },
+                    //text inside the method
+                    child: new Text(
+                      element + "\n\n\n\n\n\n Tap to Continue >>>",
 
-                  //sylistic properties of the text
-                  style: TextStyle(
-                    fontFamily: 'fonts/autumn_in_november.ttf',
-                    fontSize: 17.0,
-                    color: Colors.white,
+                      //sylistic properties of the text
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ))
-          ])),
-    ));
+                ))
+              ])),
+        ));
   }
 }
 
@@ -203,6 +204,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   Widget _bodyFor(int index) {
     switch (index) {
       case 0:
+        //passes in the data and retrives it
         return Home(data: data, updateDataCallback: updateData);
       case 1:
         return Graphs();

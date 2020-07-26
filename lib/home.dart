@@ -3,6 +3,7 @@ part of my_library;
 //NOTE: events = each day's informatiom
 
 class Home extends StatefulWidget {
+  //parameters
   final Map<DateTime, Map<String, int>> data;
   final Function(DateTime, Map<String, int>) updateDataCallback;
 
@@ -15,7 +16,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //create calendar object
   CalendarController _controller;
-  // Selected emotion data for the current day
+  //user's selected emotion data for the current day
   Map<String, int> _selectedData;
 
   @override
@@ -35,6 +36,16 @@ class _HomeState extends State<Home> {
     });
   }
 
+  //formatting for how the day's emotions will be written out below the calendar
+  String listEmotions() {
+    var listedEmotions = '';
+    var keys = _selectedData.keys.toList();
+    for (var emotion in keys) {
+      listedEmotions += '${emotion.capitalize()}: ${_selectedData[emotion]}\n';
+    }
+    return listedEmotions;
+  }
+
   @override
   Widget build(BuildContext context) {
     _selectedData = widget.data[_controller.selectedDay] ?? {};
@@ -50,8 +61,9 @@ class _HomeState extends State<Home> {
               // Currently very ugly
               events: widget.data.map((key, value) => MapEntry(key, [value])),
               //sets calendar style
-              calendarStyle:
-                  CalendarStyle(selectedColor: Theme.of(context).primaryColor),
+              calendarStyle: CalendarStyle(
+                selectedColor: Theme.of(context).primaryColor,
+              ),
               calendarController: _controller,
               //sets _selectedEvents to the events of a particular day for
               //use outside of this function
@@ -62,15 +74,14 @@ class _HomeState extends State<Home> {
                 });
               },
             ),
-            // Edit the below to change how the current day data is display
+            //how the current day's data is display
             ListTile(
-                title: Text(_selectedData.isEmpty
-                    ? "No data"
-                    : _selectedData.toString())),
+                title:
+                    Text(_selectedData.isEmpty ? "No data" : listEmotions())),
           ],
         ),
       ),
-      //+ button
+      //+ button (goes to quiz)
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Colors.green,
@@ -86,5 +97,12 @@ class _HomeState extends State<Home> {
             );
           }),
     );
+  }
+}
+
+//capitalizes a word
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
   }
 }
