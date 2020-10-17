@@ -21,6 +21,7 @@ class _DiscoverState extends State<Discover> {
 }
 class CarouselDemo extends StatelessWidget {
   @override
+  //randomly generates three images to display onto the screen
   Random rnd = new Random();
   var lst = [ExactAssetImage('images/release_your_stress.jpg'),
           ExactAssetImage('images/guide_to_productivity.jpg'),
@@ -55,4 +56,3 @@ class CarouselDemo extends StatelessWidget {
   }
   
 }
-
