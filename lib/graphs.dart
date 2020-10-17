@@ -104,7 +104,7 @@ class _GraphsState extends State<Graphs> {
                           defaultRenderer:
                               new charts.LineRendererConfig(includeArea: true),
                           animate: true,
-                          animationDuration: Duration(seconds: 1),
+                          animationDuration: Duration(milliseconds: 500),
                           behaviors: [
                             new charts.ChartTitle('Date',
                                 behaviorPosition:
