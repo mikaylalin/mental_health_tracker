@@ -74,7 +74,7 @@ class _TestState extends State<Test> {
           //change the color of the buttons to fit the information in emotionData
           // (?? 0) to account for data that isn't set yet
           color:
-              (i < (emotionData[emotion] ?? 0)) ? Colors.orange : Colors.grey));
+              (i < (emotionData[emotion] ?? 0)) ? Colors.blue[900] : Colors.grey));
     }
     return buttons;
   }
