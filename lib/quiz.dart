@@ -23,7 +23,6 @@ class _TestState extends State<Test> {
     'numbness',
     'anger',
     'stress',
-    'happiness',
     'tiredness',
     'hopelessness'
   ];
