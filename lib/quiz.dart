@@ -72,8 +72,9 @@ class _TestState extends State<Test> {
               }),
           //change the color of the buttons to fit the information in emotionData
           // (?? 0) to account for data that isn't set yet
-          color:
-              (i < (emotionData[emotion] ?? 0)) ? Colors.blue[900] : Colors.grey));
+          color: (i < (emotionData[emotion] ?? 0))
+              ? Colors.blue[900]
+              : Colors.grey));
     }
     return buttons;
   }
@@ -86,8 +87,6 @@ class _TestState extends State<Test> {
     }
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -96,15 +95,14 @@ class _TestState extends State<Test> {
           actions: <Widget>[
             //saves the quiz data only if the check mark is pressed
             IconButton(
-              icon: Icon(Icons.check),
-              onPressed: () {
-                _fillEmptyQuestions();
-                widget.saveEmotionsCallback(emotionData);
-                Navigator.pop(context);
-              }
-            ),
+                icon: Icon(Icons.check),
+                onPressed: () {
+                  _fillEmptyQuestions();
+                  widget.saveEmotionsCallback(emotionData);
+                  Navigator.pop(context);
+                }),
             IconButton(
-              icon: Icon(Icons.info_outline, color:Colors.white),
+              icon: Icon(Icons.info_outline, color: Colors.white),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -117,17 +115,51 @@ class _TestState extends State<Test> {
         body: _buildQuiz());
   }
 }
+
 class QuizInstructions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Instructions'),
-        
-      ),
-      body: Center(
-        child: Text('iNsTrUcTiOnS'),
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Instructions'),
+        ),
+        body: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(15.0),
+            children: <Widget>[
+              Text('Welcome to your daily check-in!',
+                  textAlign: TextAlign.center),
+              SizedBox(height: 20),
+              Text(
+                  'In each question you will be asked about the severity of a certain emotion you might have had today. You can rank each emotion’s intensity from 0-5, with 0 being the lowest (do not select any circles) and 5 being the highest.',
+                  textAlign: TextAlign.center),
+              SizedBox(height: 20),
+              Text(
+                  'Once you’re done with the check-in, you can click on the check mark in the upper right hand corner to save your data! You can always enter the check-in again to make changes if necessary.',
+                  textAlign: TextAlign.center),
+              SizedBox(height: 50),
+              Text('Dictionary Definitions of the Emotions: ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(height: 20),
+              Text(
+                  'ANXIETY - feelings of worry, nervousness, unease, or apprehension (typically about events or uncertain outcomes)'),
+              SizedBox(height: 20),
+              Text('SADNESS - affected by unhappiness or grief; sorrow '),
+              SizedBox(height: 20),
+              Text(
+                  'NUMBNESS - deprived of feeling, responsiveness, or sensation'),
+              SizedBox(height: 20),
+              Text(
+                  'ANGER - a strong feeling of annoyance, displeasure, or hostility'),
+              SizedBox(height: 20),
+              Text(
+                  'STRESS - feelings of emotional or physical tension; a reaction to an overwhelming or difficult challenge or demand'),
+              SizedBox(height: 20),
+              Text(
+                  'TIREDNESS - the state of wishing for sleep or rest; weariness; drained of strength and energy'),
+              SizedBox(height: 20),
+              Text(
+                  'HOPLESSNESS - a feeling or state of despair; having no expectation of good or success'),
+            ]));
   }
 }
