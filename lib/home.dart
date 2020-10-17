@@ -50,7 +50,21 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     _selectedData = widget.data[_controller.selectedDay] ?? {};
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Home')),
+      appBar: new AppBar(
+        title: new Text('Home'),
+        actions: <Widget>[
+            //saves the quiz data only if the check mark is pressed
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
+                );
+              }
+            ),
+        ]
+      ),
       //scrollable
       body: SingleChildScrollView(
         child: Column(
@@ -82,21 +96,41 @@ class _HomeState extends State<Home> {
         ),
       ),
       //+ button (goes to quiz)
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.green,
-          hoverColor: Colors.blue,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            child: Icon(Icons.add),
+            backgroundColor: Colors.indigo[600],
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
                   builder: (context) => Test(
-                        existingData: _selectedData,
-                        saveEmotionsCallback: saveEmotions,
-                      )),
-            );
-          }),
+                    existingData: _selectedData,
+                    saveEmotionsCallback: saveEmotions,
+                  )
+                ),
+              );
+            },
+            heroTag: null,
+          ),
+          SizedBox(height: 10,),
+          FloatingActionButton(
+            child: Icon(Icons.speaker_notes),
+            backgroundColor: Colors.indigo[600],
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Diary()),
+              );
+            },
+            heroTag: null,
+          )
+        ]
+      )
     );
+
   }
 }
 
@@ -104,5 +138,36 @@ class _HomeState extends State<Home> {
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}
+class Settings extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Settings'),
+        
+      ),
+    );
+  }
+}
+
+class Diary extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Personal Diary'),
+        
+      ),
+      body: 
+        //Text('How was your day today?'),
+        TextField(
+          decoration: InputDecoration(
+          border: InputBorder.none,
+          ),
+        )
+      
+    );
   }
 }
