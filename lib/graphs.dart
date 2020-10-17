@@ -78,12 +78,15 @@ class _GraphsState extends State<Graphs> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'Poppins'),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff1976d2),
+          backgroundColor: Colors.blue[900],
           //backgroundColor: Color(0xff308e1c),
-          title: Text('Tester Graph'),
+          title: Text('Graph'),
+          
         ),
+        
         body: Center(
           child: Padding(
             padding: EdgeInsets.all(8.0),
@@ -125,7 +128,7 @@ class _GraphsState extends State<Graphs> {
                                     right: 4.0, bottom: 4.0),
                                 entryTextStyle: charts.TextStyleSpec(
                                     color:
-                                        charts.Color(r: 127, g: 63, b: 191))),
+                                        charts.Color(r: 0, g: 0, b: 0))),
                             new charts.SlidingViewport(),
                             new charts.PanAndZoomBehavior()
                           ]),
