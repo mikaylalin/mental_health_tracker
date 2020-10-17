@@ -74,7 +74,7 @@ class _TestState extends State<Test> {
           //change the color of the buttons to fit the information in emotionData
           // (?? 0) to account for data that isn't set yet
           color:
-              (i < (emotionData[emotion] ?? 0)) ? Colors.orange : Colors.grey));
+              (i < (emotionData[emotion] ?? 0)) ? Colors.blue[900] : Colors.grey));
     }
     return buttons;
   }
@@ -87,6 +87,8 @@ class _TestState extends State<Test> {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -95,14 +97,38 @@ class _TestState extends State<Test> {
           actions: <Widget>[
             //saves the quiz data only if the check mark is pressed
             IconButton(
-                icon: Icon(Icons.check),
-                onPressed: () {
-                  _fillEmptyQuestions();
-                  widget.saveEmotionsCallback(emotionData);
-                  Navigator.pop(context);
-                }),
+              icon: Icon(Icons.check),
+              onPressed: () {
+                _fillEmptyQuestions();
+                widget.saveEmotionsCallback(emotionData);
+                Navigator.pop(context);
+              }
+            ),
+            IconButton(
+              icon: Icon(Icons.info_outline, color:Colors.white),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => QuizInstructions()),
+                );
+              },
+            ),
           ],
         ),
         body: _buildQuiz());
+  }
+}
+class QuizInstructions extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Instructions'),
+        
+      ),
+      body: Center(
+        child: Text('iNsTrUcTiOnS'),
+      ),
+    );
   }
 }

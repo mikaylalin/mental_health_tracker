@@ -6,8 +6,9 @@ class Discover extends StatefulWidget {
 }
 
 class _DiscoverState extends State<Discover> {
-  
   @override
+  
+
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
@@ -19,22 +20,24 @@ class _DiscoverState extends State<Discover> {
 
 }
 class CarouselDemo extends StatelessWidget {
-  
- @override
+  @override
+  Random rnd = new Random();
+  var lst = [ExactAssetImage('images/release_your_stress.jpg'),
+          ExactAssetImage('images/guide_to_productivity.jpg'),
+          ExactAssetImage('images/the_pomodoro_method.jpg'),
+          ExactAssetImage('images/benefits_of_journaling.jpg'),
+          ExactAssetImage('images/drink_water.jpg'),];
   Widget build(BuildContext context) {
+    var element1 = lst[rnd.nextInt(lst.length)];
+    var element2 = lst[rnd.nextInt(lst.length)];
+    var element3 = lst[rnd.nextInt(lst.length)];
     return SizedBox(
-      
       child: Carousel(
         //fit images according the width
         boxFit: BoxFit.fitWidth,
         //adding images
-        images: [
-          ExactAssetImage('images/release_your_stress.jpg'),
-          ExactAssetImage('images/guide_to_productivity.jpg'),
-          ExactAssetImage('images/the_pomodoro_method.jpg'),
-          ExactAssetImage('images/benefits_of_journaling.jpg'),
-          ExactAssetImage('images/drink_water.jpg'),
-        ],
+        images: [element1, element2, element3],
+        //onTap: () => launch(),
       //other specs
       autoplay: false,
       autoplayDuration: Duration(seconds: 5),
@@ -52,3 +55,4 @@ class CarouselDemo extends StatelessWidget {
   }
   
 }
+

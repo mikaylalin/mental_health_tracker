@@ -40,9 +40,14 @@ class MyApp extends StatelessWidget {
       title: 'Mental Health Tracker',
       theme: ThemeData(
         //application theme
-        primarySwatch: Colors.indigo,
+        brightness: Brightness.light,
+        primaryColor: Colors.blue[900],
+        accentColor: Colors.blue[600],
+        //primaryColor: Colors.blue,
+        //primaryColorBrightness: Brightness.dark,
         //makes the visual density adapt to the platform the app runs on
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Poppins',
       ),
 
       home: MyBottomNavigationBar(), //MyBottomNavigationBar(),
