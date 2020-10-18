@@ -113,16 +113,17 @@ class _HomeState extends State<Home> {
             height: 10,
           ),
           FloatingActionButton(
-            child: Icon(Icons.speaker_notes),
-            backgroundColor: Colors.indigo[600],
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Diary()),
-              );
-            },
-            heroTag: null,
-          )
+              child: Icon(Icons.speaker_notes),
+              backgroundColor: Colors.indigo[600],
+              onPressed: () {
+                Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Diary()))
+                    .then((valueFromTextField) {
+                  print(valueFromTextField);
+                  // use your valueFromTextField from the second page
+                });
+                //heroTag: null;
+              })
         ]));
   }
 }
@@ -146,27 +147,104 @@ class Settings extends StatelessWidget {
 }
 
 class Diary extends StatelessWidget {
+  TextEditingController _diaryEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Personal Diary'),
-        ),
-        body: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(10.0),
-            children: <Widget>[
-              Text('Feel free to write about your day below!',
-                  style: TextStyle(fontSize: 17.0),
-                  textAlign: TextAlign.center),
-              TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(width: 10.0),
-                    ),
-                  )),
-            ]));
+      appBar: AppBar(
+        title: Text('Personal Diary'),
+      ),
+      body: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(10.0),
+          children: <Widget>[
+            Text('Feel free to write about your day below!',
+                style: TextStyle(fontSize: 17.0), textAlign: TextAlign.center),
+            TextField(
+                controller: _diaryEditingController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 10.0),
+                  ),
+                )),
+          ]),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.check),
+          backgroundColor: Colors.indigo[600],
+          onPressed: () =>
+              Navigator.of(context).pop(_diaryEditingController.text)),
+    );
   }
 }
+
+// class Diary extends StatelessWidget {
+//   @override
+//   diary;
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Personal Diary',
+//       home: DiaryForm(),
+//     );
+//   }
+// }
+
+// // Define a custom Form widget.
+// class DiaryForm extends StatefulWidget {
+//   @override
+//   _DiaryFormState createState() => _DiaryFormState();
+// }
+
+// // Define a corresponding State class.
+// // This class holds the data related to the Form.
+// class _DiaryFormState extends State<DiaryForm> {
+//   // Create a text controller and use it to retrieve the current value
+//   // of the TextField.
+//   final diaryController = TextEditingController();
+
+//   @override
+//   void dispose() {
+//     // Clean up the controller when the widget is disposed.
+//     diaryController.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Personal Diary'),
+//           actions: <Widget>[
+//             //saves the quiz data only if the check mark is pressed
+//             IconButton(
+//                 icon: Icon(Icons.check),
+//                 onPressed: () {
+//                    return showDialog(
+//                     context: context,
+//                     builder: (context) {
+//                     diary = Text(diaryController.text),
+//                   Navigator.pop(context);
+//                 })]),
+//         body: ListView(
+//             shrinkWrap: true,
+//             padding: EdgeInsets.all(10.0),
+//             controller: diaryController,
+//             children: <Widget>[
+//               Text('Feel free to write about your day below!',
+//                   style: TextStyle(fontSize: 17.0),
+//                   textAlign: TextAlign.center),
+//               TextField(
+//                   keyboardType: TextInputType.multiline,
+//                   maxLines: null,
+//                   decoration: InputDecoration(
+//                     border: OutlineInputBorder(
+//                       borderSide: BorderSide(width: 10.0),
+//                     ),
+//                   )),
+//             ]
+
+//             ),
+//     );
+
+// }
