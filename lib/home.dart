@@ -50,55 +50,50 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     _selectedData = widget.data[_controller.selectedDay] ?? {};
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Home'),
-        actions: <Widget>[
-            //saves the quiz data only if the check mark is pressed
-            IconButton(
+        appBar: new AppBar(title: new Text('Home'), actions: <Widget>[
+          //saves the quiz data only if the check mark is pressed
+          IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Settings()),
                 );
-              }
-            ),
-        ]
-      ),
-      //scrollable
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            //put the calendar on the screen
-            TableCalendar(
-              // Currently very ugly
-              events: widget.data.map((key, value) => MapEntry(key, [value])),
-              //sets calendar style
-              calendarStyle: CalendarStyle(
-                selectedColor: Theme.of(context).primaryColor,
+              }),
+        ]),
+        //scrollable
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              //put the calendar on the screen
+              TableCalendar(
+                // Currently very ugly
+                events: widget.data.map((key, value) => MapEntry(key, [value])),
+                //sets calendar style
+                calendarStyle: CalendarStyle(
+                  selectedColor: Theme.of(context).primaryColor,
+                ),
+                calendarController: _controller,
+                //sets _selectedEvents to the events of a particular day for
+                //use outside of this function
+                onDaySelected: (date, events) {
+                  setState(() {
+                    // Our map wrapped in a list of length 1 to work with calendar
+                    _selectedData = events.isEmpty ? {} : events[0];
+                  });
+                },
               ),
-              calendarController: _controller,
-              //sets _selectedEvents to the events of a particular day for
-              //use outside of this function
-              onDaySelected: (date, events) {
-                setState(() {
-                  // Our map wrapped in a list of length 1 to work with calendar
-                  _selectedData = events.isEmpty ? {} : events[0];
-                });
-              },
-            ),
-            //how the current day's data is display
-            ListTile(
-                title:
-                    Text(_selectedData.isEmpty ? "No data" : listEmotions())),
-          ],
+              //how the current day's data is display
+              ListTile(
+                  title:
+                      Text(_selectedData.isEmpty ? "No data" : listEmotions())),
+            ],
+          ),
         ),
-      ),
-      //+ button (goes to quiz)
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
+        //+ button (goes to quiz)
+        floatingActionButton:
+            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
           FloatingActionButton(
             child: Icon(Icons.add),
             backgroundColor: Colors.indigo[600],
@@ -106,31 +101,30 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Test(
-                    existingData: _selectedData,
-                    saveEmotionsCallback: saveEmotions,
-                  )
-                ),
+                    builder: (context) => Test(
+                          existingData: _selectedData,
+                          saveEmotionsCallback: saveEmotions,
+                        )),
               );
             },
             heroTag: null,
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           FloatingActionButton(
-            child: Icon(Icons.speaker_notes),
-            backgroundColor: Colors.indigo[600],
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Diary()),
-              );
-            },
-            heroTag: null,
-          )
-        ]
-      )
-    );
-
+              child: Icon(Icons.speaker_notes),
+              backgroundColor: Colors.indigo[600],
+              onPressed: () {
+                Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Diary()))
+                    .then((valueFromTextField) {
+                  print(valueFromTextField);
+                  // use your valueFromTextField from the second page
+                });
+                //heroTag: null;
+              })
+        ]));
   }
 }
 
@@ -140,34 +134,117 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
 }
+
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
-        
       ),
     );
   }
 }
 
 class Diary extends StatelessWidget {
+  TextEditingController _diaryEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Personal Diary'),
-        
       ),
-      body: 
-        //Text('How was your day today?'),
-        TextField(
-          decoration: InputDecoration(
-          border: InputBorder.none,
-          ),
-        )
-      
+      body: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(10.0),
+          children: <Widget>[
+            Text('Feel free to write about your day below!',
+                style: TextStyle(fontSize: 17.0), textAlign: TextAlign.center),
+            TextField(
+                controller: _diaryEditingController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 10.0),
+                  ),
+                )),
+          ]),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.check),
+          backgroundColor: Colors.indigo[600],
+          onPressed: () =>
+              Navigator.of(context).pop(_diaryEditingController.text)),
     );
   }
 }
+
+// class Diary extends StatelessWidget {
+//   @override
+//   diary;
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Personal Diary',
+//       home: DiaryForm(),
+//     );
+//   }
+// }
+
+// // Define a custom Form widget.
+// class DiaryForm extends StatefulWidget {
+//   @override
+//   _DiaryFormState createState() => _DiaryFormState();
+// }
+
+// // Define a corresponding State class.
+// // This class holds the data related to the Form.
+// class _DiaryFormState extends State<DiaryForm> {
+//   // Create a text controller and use it to retrieve the current value
+//   // of the TextField.
+//   final diaryController = TextEditingController();
+
+//   @override
+//   void dispose() {
+//     // Clean up the controller when the widget is disposed.
+//     diaryController.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Personal Diary'),
+//           actions: <Widget>[
+//             //saves the quiz data only if the check mark is pressed
+//             IconButton(
+//                 icon: Icon(Icons.check),
+//                 onPressed: () {
+//                    return showDialog(
+//                     context: context,
+//                     builder: (context) {
+//                     diary = Text(diaryController.text),
+//                   Navigator.pop(context);
+//                 })]),
+//         body: ListView(
+//             shrinkWrap: true,
+//             padding: EdgeInsets.all(10.0),
+//             controller: diaryController,
+//             children: <Widget>[
+//               Text('Feel free to write about your day below!',
+//                   style: TextStyle(fontSize: 17.0),
+//                   textAlign: TextAlign.center),
+//               TextField(
+//                   keyboardType: TextInputType.multiline,
+//                   maxLines: null,
+//                   decoration: InputDecoration(
+//                     border: OutlineInputBorder(
+//                       borderSide: BorderSide(width: 10.0),
+//                     ),
+//                   )),
+//             ]
+
+//             ),
+//     );
+
+// }
